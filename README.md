@@ -31,5 +31,4 @@ Below an example config which needs to be added to the accessories section of yo
 -"debug_log"         Enables the debug logging of the plugin, default is false.
 -"serial"            This sets the published serialNumber of the accessory. It is required to use an unique serial for fakegato-history to work correctly.
 
-TODO
-- make config compatible with homebridge-config-ui-x .
+
