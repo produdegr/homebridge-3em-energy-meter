@@ -1,0 +1,28 @@
+{
+  "name": "homebridge-3em-energy-meter",
+  "version": "0.0.7",
+  "description": "Homebridge plugin for implementing Shelly 3EM Energy Meter functionality in Homekit (EVE third party app only).",
+  "license": "MIT",
+  "keywords": [
+    "homebridge-plugin",
+    "energy meter",
+    "Shelly 3EM",
+    "http",
+    "no mqtt"
+  ],
+  "engines": {
+    "node": ">=14.0.0",
+    "homebridge": ">=1.3.1"
+  },
+  "author": {
+    "name": "@produdegr"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/produdegr/homebridge-3em-energy-meter.git"
+  },
+  "dependencies": {
+    "request": "^2.5.0",
+    "fakegato-history": "^0.6.1" 
+  }
+}
