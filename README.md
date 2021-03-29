@@ -23,13 +23,13 @@ Below an example config which needs to be added to the accessories section of yo
             "serial": "123456789012345"             
         },
 
-"name"              The Homekit Accessory Name.
-"ip"                The IP address of your Shelly 3EM.
-"user" and "pass"   If your Shelly 3EM local web page is password protected specify "user" and "pass".
-"timeout"           The http/get request timeout in msec. This timeout must the less than the "update_interval", default is 5000.
-"update_interval"   The interval for pulling values in msec. Must be greater than "timeout" setting, default is 10000.
-"debug_log"         Enables the debug logging of the plugin, default is false.
-"serial"            This sets the published serialNumber of the accessory. It is required to use an unique serial for fakegato-history to work correctly.
+-"name"              The Homekit Accessory Name.
+-"ip"                The IP address of your Shelly 3EM.
+-"user" and "pass"   If your Shelly 3EM local web page is password protected specify "user" and "pass".
+-"timeout"           The http/get request timeout in msec. This timeout must the less than the "update_interval", default is 5000.
+-"update_interval"   The interval for pulling values in msec. Must be greater than "timeout" setting, default is 10000.
+-"debug_log"         Enables the debug logging of the plugin, default is false.
+-"serial"            This sets the published serialNumber of the accessory. It is required to use an unique serial for fakegato-history to work correctly.
 
 TODO
 - make config compatible with homebridge-config-ui-x .
