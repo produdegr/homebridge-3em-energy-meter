@@ -1,0 +1,75 @@
+{
+  "pluginAlias": "3EMEnergyMeter",
+  "pluginType": "accessory",
+  "singular": true,
+  "headerDisplay": "Shelly 3EM Energy Meter Plugin",
+  "footerDisplay": "This accessory will only be supported in the thirdparty Homekit app EVE.",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "title": "Name",
+        "type": "string",
+        "default": "Energy Meter",
+        "required": true
+        },
+        "ip": {
+        "title": "IP Address",
+        "type": "string",
+        "default": "127.0.0.1",
+        "required": true,
+        "format": "ipv4"
+        },   
+        "auth": {
+        "title": "Shelly 3EM Web Interface Authentication",
+        "type": "object",
+        "properties": {
+            "user": {
+              "title": "Username",
+              "type": "string",
+              "default": "",
+              "required": false
+            },
+            "pass": {
+              "title": "Password",
+              "type": "string",
+              "default": "",
+              "required": false
+            }
+          }
+        },
+        "timeout": {
+        "title": "Request Timeout",
+        "type": "integer",
+        "default": 5000,
+        "required": true,
+        "minimum": 1000,
+        "maximum": 30000
+        },
+        "update_interval": {
+        "title": "Update Interval",
+        "type": "integer",
+        "default": 10000,
+        "required": true,
+        "minimum": 1000,
+        "maximum": 60000,
+        "description": "Update Interval should be higher than Request Timeout."
+        },
+        "debug_log": {
+        "title": "Enable Debug Logging",
+        "type": "boolean",
+        "default": false,
+        "required": true
+        },
+        "serial": {
+        "title": "Shelly 3EM Device Serial",
+        "type": "string",
+        "default": "123456789012345",
+        "required": true,
+        "minLength": 5,
+        "maxLength": 16,
+        "description": "Please make sure this serial is unique across homebridge, or simply use real serial."
+        }
+      }
+    }
+}
