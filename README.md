@@ -1,13 +1,24 @@
 # homebridge-3em-energy-meter
 This is a Homebridge plugin for implementing Shelly 3EM Energy Meter functionality in Homekit (EVE third party app only).
 
-This plugin uses http requests to a Shelly 3EM device, making it possible to retain the native Shelly cloud statistics (which use MQTT) and at the same time to monitor your energy consumption via Homekit. Due to the fact that Apple does not support energy characteristics in Homekit, this plugin's accessory will only show values in the thirdparty homekit application from EVE.
+This plugin uses http requests to a Shelly 3EM device, making it possible to retain the native Shelly cloud statistics (which use MQTT)
+and at the same time to monitor your energy consumption via Homekit. Due to the fact that Apple does not support energy characteristics
+in Homekit, this plugin's accessory will only show values in the thirdparty homekit application from EVE.
 
-It will show in the EVE application the following values: Voltage (the average voltage of all 3 phases), Current (the accumulated Ampere of all 3 phases), Consumption (the accumulated Watts of all 3 phases) and the Total Consumption (the accumulated kWh of all 3 phases as calculated by Shelly API. Note in order to reset this value you must reset it in the Shelly app). A Total Cost and Projected Cost will show if you have specified the Energy Cost in the settings section of your EVE application. Total Consumption and Total Cost will feature the fakegato-history graph.
+It will show in the EVE application the following values: Voltage (the average voltage of all 3 phases), Current (the accumulated Ampere of all 3 phases),
+Consumption (the accumulated Watts of all 3 phases) and the Total Consumption (the accumulated kWh of all 3 phases as calculated by Shelly API.
+Note: In order to reset this value you must reset it in the Shelly app). A Total Cost and Projected Cost will show if you have specified 
+the Energy Cost in the settings section of your EVE application. Total Consumption and Total Cost will feature the fakegato-history graph.
 
 This application uses the cool fakegato plugin (simont77/fakegato-history).
 
-Below an example config which needs to be added to the accessories section of your Homebridge's config.json:
+If you are using Homebridge UI (oznu/homebridge-config-ui-x) then simply add "homebridge-3em-energy-meter" on the plugins page to install
+and then press on <SETTINGS> to configure it. 
+
+Alternatively install the plugin manually by "npm install -g homebridge-3em-energy-meter" and add below configuration which needs to be added
+to the accessories section of your Homebridge's config.json.
+        
+Below an example config:
 
         {
             "accessory": "3EMEnergyMeter",
