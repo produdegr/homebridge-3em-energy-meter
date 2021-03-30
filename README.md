@@ -13,7 +13,7 @@ the Energy Cost in the settings section of your EVE application. Total Consumpti
 This application uses the cool fakegato plugin (simont77/fakegato-history).
 
 If you are using Homebridge UI (oznu/homebridge-config-ui-x) then simply add "homebridge-3em-energy-meter" on the plugins page to install
-and then press on <SETTINGS> to configure it. 
+and then use "SETTINGS" to configure it. 
 
 Alternatively install the plugin manually by "npm install -g homebridge-3em-energy-meter" and add below configuration which needs to be added
 to the accessories section of your Homebridge's config.json.
