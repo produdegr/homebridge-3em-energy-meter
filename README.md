@@ -1,9 +1,12 @@
 # homebridge-3em-energy-meter
 This is a Homebridge plugin for implementing Shelly 3EM Energy Meter functionality in Homekit (EVE third party app only).
+Allthough the Shelly 3EM does feature an actuator (switch), it is not implemented in this plugin as the plugin's whole purpose is
+the energy metering of a 3 phase power installation. Please use another plugin if you need the switch functionality as for example the
+very good Shelly plugin (alexryd/homebridge-shelly).
 
 This plugin uses http requests to a Shelly 3EM device, making it possible to retain the native Shelly cloud statistics (which use MQTT)
 and at the same time to monitor your energy consumption via Homekit. Due to the fact that Apple does not support energy characteristics
-in Homekit, this plugin's accessory will only show values in the thirdparty homekit application from EVE.
+in Homekit, this plugin's accessory will only show values in the third-party homekit application "EVE".
 
 It will show in the EVE application the following values: Voltage (the average voltage of all 3 phases), Current (the accumulated Ampere of all 3 phases),
 Consumption (the accumulated Watts of all 3 phases) and the Total Consumption (the accumulated kWh of all 3 phases as calculated by Shelly API.
