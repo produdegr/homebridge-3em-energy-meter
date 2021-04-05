@@ -4,15 +4,25 @@
 
 This plugin uses http requests to a Shelly 3EM device, making it possible to retain the native Shelly cloud statistics (which use MQTT) and at the same time allow you to monitor your energy consumption via Homekit. 
 
-Due to the fact that Apple does not support energy characteristics in Homekit, this plugin's accessory will only show values in the third-party homekit application "EVE".
+Please note that due to the fact that Apple does not support energy characteristics in Homekit, this plugin's accessory will only show values in the third-party homekit application "EVE".
 
 [![Status](screenshots/homebridge-3em-energy-meter-eve-app.png)]
 
 It will show in the EVE application the following values: Voltage (the average voltage of all 3 phases), Current (the accumulated Ampere of all 3 phases), Consumption (the accumulated Watts of all 3 phases) and the Total Consumption (the accumulated kWh of all 3 phases as calculated by Shelly API. Note in order to reset this value you must reset it in the Shelly app). A Total Cost and Projected Cost will show if you have specified the Energy Cost in the settings section of your EVE application. Total Consumption and Total Cost will feature the fakegato-history graph.
 
-This application uses the cool fakegato plugin (simont77/fakegato-history).
+This application uses the cool fakegato plugin ([simont77/fakegato-history](https://github.com/simont77/fakegato-history)).
 
-Below an example config which needs to be added to the accessories section of your Homebridge's config.json:
+Please also note that the sole purpose of this plugin is the energy metering feature of the Shelly 3em in order to monitor your 3 phase installation. The Shelly 3em features also an actuator (switch) which is not implemented in this plugin. If you need to use the switch in Homekit please use other plugins, like for example the very good homebridge-shelly ([alexryd/homebridge-shelly](https://github.com/alexryd/homebridge-shelly)) plugin.
+
+# Installation Instructions
+
+You can easily install this plugin by using the superb [Homebridge Config UI X](https://www.npmjs.com/package/homebridge-config-ui-x). Search for "homebridge-3em-energy-meter" in the "Plugins" tab and install the plugin. After that fill out the configuration by using the "SETTINGS" link below the installed plugin.
+
+Alternatively, can you install the plugin by 
+
+             npm install -g homebridge-3em-energy-meter
+
+and then edit your Homebridge's config.jsoh to include the following in the accessories section:
 
         {
             "accessory": "3EMEnergyMeter",
@@ -28,12 +38,12 @@ Below an example config which needs to be added to the accessories section of yo
             "serial": "123456789012345"             
         },
 
--"name"              The Homekit Accessory Name.
--"ip"                The IP address of your Shelly 3EM.
--"user" and "pass"   If your Shelly 3EM local web page is password protected specify "user" and "pass".
--"timeout"           The http/get request timeout in msec. This timeout must the less than the "update_interval", default is 5000.
--"update_interval"   The interval for pulling values in msec. Must be greater than "timeout" setting, default is 10000.
--"debug_log"         Enables the debug logging of the plugin, default is false.
--"serial"            This sets the published serialNumber of the accessory. It is required to use an unique serial for fakegato-history to work correctly.
+* "name"              The Homekit Accessory Name.
+* "ip"                The IP address of your Shelly 3EM.
+* "user" and "pass"   If your Shelly 3EM local web page is password protected specify "user" and "pass".
+* "timeout"           The http/get request timeout in msec. This timeout must the less than the "update_interval", default is 5000.
+* "update_interval"   The interval for pulling values in msec. Must be greater than "timeout" setting, default is 10000.
+* "debug_log"         Enables the debug logging of the plugin, default is false.
+* "serial"            This sets the published serialNumber of the accessory. It is required to use an unique serial for fakegato-history to work correctly.
 
 
