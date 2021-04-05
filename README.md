@@ -6,7 +6,7 @@ This plugin uses http requests to a Shelly 3EM device, making it possible to ret
 
 Due to the fact that Apple does not support energy characteristics in Homekit, this plugin's accessory will only show values in the third-party homekit application "EVE".
 
-[![Status](screenshots/ss001.png)]
+[![Status](screenshots/homebridge-3em-energy-meter-eve-app.png)]
 
 It will show in the EVE application the following values: Voltage (the average voltage of all 3 phases), Current (the accumulated Ampere of all 3 phases), Consumption (the accumulated Watts of all 3 phases) and the Total Consumption (the accumulated kWh of all 3 phases as calculated by Shelly API. Note in order to reset this value you must reset it in the Shelly app). A Total Cost and Projected Cost will show if you have specified the Energy Cost in the settings section of your EVE application. Total Consumption and Total Cost will feature the fakegato-history graph.
 
