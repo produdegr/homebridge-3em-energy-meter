@@ -1,8 +1,8 @@
 # Homebridge 3em Energy Meter
 
-[Homebridge 3em Energy Meter](https://www.npmjs.com/package/homebridge-3em-energy-meter) is a Homebridge plugin for implementing Shelly 3EM energy metering functionality in Homekit (EVE third party app only).
+[Homebridge 3em Energy Meter](https://www.npmjs.com/package/homebridge-3em-energy-meter) is a plugin for [Homebridge](https://github.com/homebridge/homebridge) that implements Shelly 3EM energy metering functionality in Homekit (via the "EVE" third-party app only).
 
-This plugin uses http requests to a Shelly 3EM device, making it possible to retain the native Shelly cloud statistics (which use MQTT) and at the same time to monitor your energy consumption via Homekit. Due to the fact that Apple does not support energy characteristics in Homekit, this plugin's accessory will only show values in the thirdparty homekit application from EVE.
+This plugin uses http requests to a Shelly 3EM device, making it possible to retain the native Shelly cloud statistics (which use MQTT) and at the same time allow you to monitor your energy consumption via Homekit. Due to the fact that Apple does not support energy characteristics in Homekit, this plugin's accessory will only show values in the third-party homekit application from EVE.
 
 It will show in the EVE application the following values: Voltage (the average voltage of all 3 phases), Current (the accumulated Ampere of all 3 phases), Consumption (the accumulated Watts of all 3 phases) and the Total Consumption (the accumulated kWh of all 3 phases as calculated by Shelly API. Note in order to reset this value you must reset it in the Shelly app). A Total Cost and Projected Cost will show if you have specified the Energy Cost in the settings section of your EVE application. Total Consumption and Total Cost will feature the fakegato-history graph.
 
