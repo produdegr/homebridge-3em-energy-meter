@@ -9,7 +9,6 @@ module.exports = function (homebridge) {
 	Characteristic = homebridge.hap.Characteristic;
 	Accessory = homebridge.platformAccessory;
 	UUIDGen = homebridge.hap.uuid;
-	// History Service
 	FakeGatoHistoryService = require('fakegato-history')(homebridge);
 	homebridge.registerAccessory("homebridge-3em-energy-meter", "3EMEnergyMeter", EnergyMeter);
 }
@@ -23,7 +22,7 @@ function EnergyMeter (log, config) {
 	this.displayName = config["name"];
 	this.timeout = config["timeout"] || 5000;
 	this.http_method = "GET";
-	this.update_interval = Number(config["update_interval"] || 30000);
+	this.update_interval = Number(config["update_interval"] || 10000);
 	this.debug_log = config["debug_log"] || false;
 	this.serial = config.serial || "9000000";
 
@@ -94,15 +93,12 @@ function EnergyMeter (log, config) {
 	EveAmpere1.UUID = 'E863F126-079E-48FF-8F27-9C2605A29F52';
 	inherits(EveAmpere1, Characteristic);
 
-
 	var PowerMeterService = function (displayName, subtype) {
 		Service.call(this, displayName, '00000001-0000-1777-8000-775D67EC4377', subtype);
 		this.addCharacteristic(EvePowerConsumption);
 		this.addOptionalCharacteristic(EveTotalConsumption);
 		this.addOptionalCharacteristic(EveVoltage1);
     this.addOptionalCharacteristic(EveAmpere1);
-
-
 	};
 	PowerMeterService.UUID = '00000001-0000-1777-8000-775D67EC4377';
 	inherits(PowerMeterService, Service);
@@ -130,7 +126,6 @@ function EnergyMeter (log, config) {
 
   // add fakegato
   this.historyService = new FakeGatoHistoryService("energy", this,{storage:'fs'});
-
 }
 
 EnergyMeter.prototype.updateState = function () {
@@ -185,21 +180,16 @@ EnergyMeter.prototype.updateState = function () {
 		});
 	})
 	.then((value_current, value_total, value_voltage1, value_ampere1) => {
-
 		if (value_current != null) {
-																this.service.getCharacteristic(this._EvePowerConsumption).setValue(value_current, undefined, undefined);
-																//FakeGato
-																this.historyService.addEntry({time: Math.round(new Date().valueOf() / 1000), power: value_current});
-															}
+				this.service.getCharacteristic(this._EvePowerConsumption).setValue(value_current, undefined, undefined);
+				//FakeGato
+				this.historyService.addEntry({time: Math.round(new Date().valueOf() / 1000), power: value_current});}
 		if (value_total != null) {
-																this.service.getCharacteristic(this._EveTotalConsumption).setValue(value_total, undefined, undefined);
-															}
+				this.service.getCharacteristic(this._EveTotalConsumption).setValue(value_total, undefined, undefined);}
 		if (value_voltage1 != null) {
-																this.service.getCharacteristic(this._EveVoltage1).setValue(value_voltage1, undefined, undefined);
-															}
+				this.service.getCharacteristic(this._EveVoltage1).setValue(value_voltage1, undefined, undefined);}
 		if (value_ampere1 != null) {
-																this.service.getCharacteristic(this._EveAmpere1).setValue(value_ampere1, undefined, undefined);
-															}
+				this.service.getCharacteristic(this._EveAmpere1).setValue(value_ampere1, undefined, undefined);}
 		return true;
 	}, (error) => {
 		return error;

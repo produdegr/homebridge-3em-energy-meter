@@ -3,7 +3,7 @@
   "pluginType": "accessory",
   "singular": true,
   "headerDisplay": "Shelly 3EM Energy Meter Plugin",
-  "footerDisplay": "This accessory will only be supported in the thirdparty Homekit app EVE.",
+  "footerDisplay": "This accessory will only be supported in the third-party Homekit app EVE.",
   "schema": {
     "type": "object",
     "properties": {
