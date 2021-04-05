@@ -1,5 +1,6 @@
 # homebridge-3em-energy-meter
-This is a Homebridge plugin for implementing Shelly 3EM Energy Meter functionality in Homekit (EVE third party app only).
+
+[Homebridge 3em Energy Meter](https://www.npmjs.com/package/homebridge-3em-energy-meter) is a Homebridge plugin for implementing Shelly 3EM energy metering functionality in Homekit (EVE third party app only).
 
 This plugin uses http requests to a Shelly 3EM device, making it possible to retain the native Shelly cloud statistics (which use MQTT) and at the same time to monitor your energy consumption via Homekit. Due to the fact that Apple does not support energy characteristics in Homekit, this plugin's accessory will only show values in the thirdparty homekit application from EVE.
 
