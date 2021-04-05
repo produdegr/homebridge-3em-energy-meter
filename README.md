@@ -22,7 +22,7 @@ Alternatively, can you install the plugin by
 
              npm install -g homebridge-3em-energy-meter
 
-and then edit your Homebridge's config.jsoh to include the following in the accessories section:
+and then edit your Homebridge's config.json to include the following in the accessories section:
 
         {
             "accessory": "3EMEnergyMeter",
@@ -46,4 +46,5 @@ and then edit your Homebridge's config.jsoh to include the following in the acce
 * "debug_log"         Enables the debug logging of the plugin, default is false.
 * "serial"            This sets the published serialNumber of the accessory. It is required to use an unique serial for fakegato-history to work correctly.
 
+The creator of this plugin is not affiliated in any way with Shelly (Allterco) and produced this plugin out of fun. If you like it I'm happy.
 
