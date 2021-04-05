@@ -1,4 +1,4 @@
-# homebridge-3em-energy-meter
+# Homebridge 3em Energy Meter
 
 [Homebridge 3em Energy Meter](https://www.npmjs.com/package/homebridge-3em-energy-meter) is a Homebridge plugin for implementing Shelly 3EM energy metering functionality in Homekit (EVE third party app only).
 
