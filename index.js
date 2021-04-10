@@ -155,11 +155,13 @@ EnergyMeter.prototype.updateState = function () {
 			else {
 				try {
 					json = JSON.parse(body);
-				  this.powerConsumption = parseFloat(json.emeters[0].power)+parseFloat(json.emeters[1].power)+parseFloat(json.emeters[2].power);
-				  this.totalPowerConsumption = (parseFloat(json.emeters[0].total)+parseFloat(json.emeters[1].total)+parseFloat(json.emeters[2].total))/1000;
-				  this.voltage1 = ((parseFloat(json.emeters[0].voltage)+parseFloat(json.emeters[1].voltage)+parseFloat(json.emeters[2].voltage))/3);
+					this.powerConsumption = parseFloat(json.emeters[0].power)+parseFloat(json.emeters[1].power)+parseFloat(json.emeters[2].power);
+					this.totalPowerConsumption = (parseFloat(json.emeters[0].total)+parseFloat(json.emeters[1].total)+parseFloat(json.emeters[2].total))/1000;
+					this.voltage1 = ((parseFloat(json.emeters[0].voltage)+parseFloat(json.emeters[1].voltage)+parseFloat(json.emeters[2].voltage))/3);
 					this.ampere1 = (parseFloat(json.emeters[0].current)+parseFloat(json.emeters[1].current)+parseFloat(json.emeters[2].current));
-
+					
+					this.log('3EM Values -> voltage: ' + this.voltage1.toFixed(0) + 'V, current: ' + this.ampere1.toFixed(1) + 'A, consumption: ' + this.powerConsumption.toFixed(0) + 'W, total consumption: ' + this.totalPowerConsumption.toFixed(2) + 'kWh. ');            
+					
 					if (this.debug_log) { this.log('Successful http response. '); }
 				}
 				catch (parseErr) {
@@ -168,10 +170,10 @@ EnergyMeter.prototype.updateState = function () {
 				}
 			}
 			if (!error) {
-				resolve(parseFloat(json.emeters[0].power)+parseFloat(json.emeters[1].power)+parseFloat(json.emeters[2].power),
-				(parseFloat(json.emeters[0].total)+parseFloat(json.emeters[1].total)+parseFloat(json.emeters[2].total))/1000,
-				((parseFloat(json.emeters[0].voltage)+parseFloat(json.emeters[1].voltage)+parseFloat(json.emeters[2].voltage))/3),
-				(parseFloat(json.emeters[0].current)+parseFloat(json.emeters[1].current)+parseFloat(json.emeters[2].current)))
+					resolve(parseFloat(json.emeters[0].power)+parseFloat(json.emeters[1].power)+parseFloat(json.emeters[2].power),
+					(parseFloat(json.emeters[0].total)+parseFloat(json.emeters[1].total)+parseFloat(json.emeters[2].total))/1000,
+					((parseFloat(json.emeters[0].voltage)+parseFloat(json.emeters[1].voltage)+parseFloat(json.emeters[2].voltage))/3),
+					(parseFloat(json.emeters[0].current)+parseFloat(json.emeters[1].current)+parseFloat(json.emeters[2].current)))
 			}
 			else {
 				reject(error);
