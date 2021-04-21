@@ -137,7 +137,7 @@ EnergyMeter.prototype.updateState = function () {
 	this.waiting_response = true;
 	this.last_value = new Promise((resolve, reject) => {
 		var ops = {
-			uri:		  this.url,
+			uri:		this.url,
 			method:		this.http_method,
 			timeout:	this.timeout
 		};
@@ -159,7 +159,9 @@ EnergyMeter.prototype.updateState = function () {
 					this.powerConsumption = parseFloat(json.emeters[0].power)+parseFloat(json.emeters[1].power)+parseFloat(json.emeters[2].power);
 					this.totalPowerConsumption = (parseFloat(json.emeters[0].total)+parseFloat(json.emeters[1].total)+parseFloat(json.emeters[2].total))/1000;
 					this.voltage1 = ((parseFloat(json.emeters[0].voltage)+parseFloat(json.emeters[1].voltage)+parseFloat(json.emeters[2].voltage))/3);
-					this.ampere1 = ((parseFloat(json.emeters[0].current)*parseFloat(json.emeters[0].pf))+(parseFloat(json.emeters[1].current)*parseFloat(json.emeters[1].pf))+(parseFloat(json.emeters[2].current)*parseFloat(json.emeters[2].pf)));
+					this.ampere1 = ((parseFloat(json.emeters[0].current)*parseFloat(json.emeters[0].pf))
+							+(parseFloat(json.emeters[1].current)*parseFloat(json.emeters[1].pf))
+							+(parseFloat(json.emeters[2].current)*parseFloat(json.emeters[2].pf)));
 					
 					if (this.debug_log) { this.log('Successful http response. [ voltage: ' + this.voltage1.toFixed(0) + 'V, current: ' + this.ampere1.toFixed(1) + 'A, consumption: ' + this.powerConsumption.toFixed(0) + 'W, total consumption: ' + this.totalPowerConsumption.toFixed(2) + 'kWh ]'); }
 				}
@@ -169,21 +171,10 @@ EnergyMeter.prototype.updateState = function () {
 				}
 			}
 			if (!error) {
-				if (this.use_pf) {
-					
 					resolve(parseFloat(json.emeters[0].power)+parseFloat(json.emeters[1].power)+parseFloat(json.emeters[2].power),
 					(parseFloat(json.emeters[0].total)+parseFloat(json.emeters[1].total)+parseFloat(json.emeters[2].total))/1000,
 					((parseFloat(json.emeters[0].voltage)+parseFloat(json.emeters[1].voltage)+parseFloat(json.emeters[2].voltage))/3),
 					((parseFloat(json.emeters[0].current)*parseFloat(json.emeters[0].pf))+(parseFloat(json.emeters[1].current)*parseFloat(json.emeters[1].pf))+(parseFloat(json.emeters[2].current)*parseFloat(json.emeters[2].pf))))
-					
-				} else (
-				
-					resolve(parseFloat(json.emeters[0].power)+parseFloat(json.emeters[1].power)+parseFloat(json.emeters[2].power),
-					(parseFloat(json.emeters[0].total)+parseFloat(json.emeters[1].total)+parseFloat(json.emeters[2].total))/1000,
-					((parseFloat(json.emeters[0].voltage)+parseFloat(json.emeters[1].voltage)+parseFloat(json.emeters[2].voltage))/3),
-					(parseFloat(json.emeters[0].current)+parseFloat(json.emeters[1].current)+parseFloat(json.emeters[2].current)))
-					
-				}
 			}
 			else {
 				reject(error);
