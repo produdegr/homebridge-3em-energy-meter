@@ -33,6 +33,9 @@ function EnergyMeter (log, config) {
 	this.totalPowerConsumption = 0;
 	this.voltage1 = 0;
 	this.ampere1 = 0;
+	this.pf0 = 1;
+	this.pf1 = 1;
+	this.pf2 = 1;
 
 	var EvePowerConsumption = function () {
 		Characteristic.call(this, 'Consumption', 'E863F10D-079E-48FF-8F27-9C2605A29F52');
@@ -171,10 +174,23 @@ EnergyMeter.prototype.updateState = function () {
 				}
 			}
 			if (!error) {
-					resolve(parseFloat(json.emeters[0].power)+parseFloat(json.emeters[1].power)+parseFloat(json.emeters[2].power),
-					(parseFloat(json.emeters[0].total)+parseFloat(json.emeters[1].total)+parseFloat(json.emeters[2].total))/1000,
-					((parseFloat(json.emeters[0].voltage)+parseFloat(json.emeters[1].voltage)+parseFloat(json.emeters[2].voltage))/3),
-					((parseFloat(json.emeters[0].current)*parseFloat(json.emeters[0].pf))+(parseFloat(json.emeters[1].current)*parseFloat(json.emeters[1].pf))+(parseFloat(json.emeters[2].current)*parseFloat(json.emeters[2].pf))))
+				if (this.use_pf) {
+					this.pf0 = parseFloat(json.emeters[0].pf);
+					this.pf1 = parseFloat(json.emeters[1].pf);
+					this.pf2 = parseFloat(json.emeters[2].pf);
+				}
+				else {
+					this.pf0 = 1;
+					this.pf1 = 1;
+					this.pf2 = 1;
+				}
+				
+				resolve(parseFloat(json.emeters[0].power)+parseFloat(json.emeters[1].power)+parseFloat(json.emeters[2].power),
+				(parseFloat(json.emeters[0].total)+parseFloat(json.emeters[1].total)+parseFloat(json.emeters[2].total))/1000,
+				((parseFloat(json.emeters[0].voltage)+parseFloat(json.emeters[1].voltage)+parseFloat(json.emeters[2].voltage))/3),
+				((parseFloat(json.emeters[0].current)*this.pf0)
+				 +(parseFloat(json.emeters[1].current)*this.pf1)
+				 +(parseFloat(json.emeters[2].current)*this.pf2)))
 			}
 			else {
 				reject(error);
