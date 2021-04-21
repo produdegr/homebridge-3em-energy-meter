@@ -55,6 +55,12 @@
         "maximum": 60000,
         "description": "Update Interval should be higher than Request Timeout."
         },
+        "use_pf": {
+        "title": "Use Power Factor (pf) when calculating Total Ampere",
+        "type": "boolean",
+        "default": false,
+        "required": true
+        },      
         "debug_log": {
         "title": "Enable Debug Logging",
         "type": "boolean",
