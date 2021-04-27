@@ -38,6 +38,7 @@ and then edit your Homebridge's config.json to include the following in the acce
             },
             "timeout": 5000,
             "update_interval": 10000,
+            "use_pf": false,
             "debug_log": false,
             "serial": "123456789012345"             
         },
