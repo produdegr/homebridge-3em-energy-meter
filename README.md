@@ -53,3 +53,5 @@ and then edit your Homebridge's config.json to include the following in the acce
 * "serial"            This sets the published serialNumber of the accessory. It is required to use an unique serial for fakegato-history to work correctly.
 
 The creator of this plugin is not affiliated in any way with [Shelly(Allterco)](https://shelly.cloud/) or [EVE](https://www.evehome.com/).
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)]xenofon.lemke@gmail.com
