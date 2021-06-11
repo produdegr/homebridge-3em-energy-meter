@@ -24,5 +24,9 @@
   "dependencies": {
     "request": "^2.5.0",
     "fakegato-history": "^0.6.1" 
+  },
+  "funding": {
+  "type" : "paypal",
+  "url" : "https://paypal.me/produdegr"
   }
 }
