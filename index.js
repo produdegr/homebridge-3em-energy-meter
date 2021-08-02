@@ -23,6 +23,8 @@ function EnergyMeter (log, config) {
 	this.timeout = config["timeout"] || 5000;
 	this.http_method = "GET";
 	this.update_interval = Number(config["update_interval"] || 10000);
+	this.use_em = config["use_em"] || false;
+	this.use_em_mode = config["use_em_mode"] || 0; 
 	this.use_pf = config["use_pf"] || false;
 	this.debug_log = config["debug_log"] || false;
 	this.serial = config.serial || "9000000";
@@ -144,7 +146,7 @@ EnergyMeter.prototype.updateState = function () {
 			method:		this.http_method,
 			timeout:	this.timeout
 		};
-		if (this.debug_log) { this.log('Requesting energy values from Shelly 3EM ...'); }
+		if (this.debug_log) { this.log('Requesting energy values from Shelly 3EM(EM) ...'); }
 		if (this.auth) {
 			ops.auth = {
 				user: this.auth.user,
@@ -160,7 +162,7 @@ EnergyMeter.prototype.updateState = function () {
 				try {
 					json = JSON.parse(body);
 					
-					if (this.use_pf) {
+					if ((this.use_pf) && (this.use_em==false)) {
 						this.pf0 = parseFloat(json.emeters[0].pf);
 						this.pf1 = parseFloat(json.emeters[1].pf);
 						this.pf2 = parseFloat(json.emeters[2].pf);
@@ -171,12 +173,46 @@ EnergyMeter.prototype.updateState = function () {
 						this.pf2 = 1;
 					}
 					
-					this.powerConsumption = parseFloat(json.emeters[0].power)+parseFloat(json.emeters[1].power)+parseFloat(json.emeters[2].power);
-					this.totalPowerConsumption = (parseFloat(json.emeters[0].total)+parseFloat(json.emeters[1].total)+parseFloat(json.emeters[2].total))/1000;
-					this.voltage1 = ((parseFloat(json.emeters[0].voltage)+parseFloat(json.emeters[1].voltage)+parseFloat(json.emeters[2].voltage))/3);
-					this.ampere1 = ((parseFloat(json.emeters[0].current)*this.pf0)
-							+(parseFloat(json.emeters[1].current)*this.pf1)
-							+(parseFloat(json.emeters[2].current)*this.pf2));
+					if (this.use_em) {
+						
+						if (this.use_em_mode == 0) {
+					
+					    this.powerConsumption = parseFloat(json.emeters[0].power)+parseFloat(json.emeters[1].power);
+					    this.totalPowerConsumption = (parseFloat(json.emeters[0].total)+parseFloat(json.emeters[1].total))/1000;
+					    this.voltage1 = ((parseFloat(json.emeters[0].voltage)+parseFloat(json.emeters[1].voltage))/2);
+				    	this.ampere1 = (this.powerConsumption/this.voltage1);
+						  	
+					  } else
+					  	{ if (this.use_em_mode == 1) {
+					
+					        this.powerConsumption = parseFloat(json.emeters[0].power);
+					        this.totalPowerConsumption = parseFloat(json.emeters[0].total)/1000;
+					        this.voltage1 = parseFloat(json.emeters[0].voltage);
+				        	this.ampere1 = (this.powerConsumption/this.voltage1);
+						  	
+					    } else 
+					      { if (this.use_em_mode == 2) {
+					
+					          this.powerConsumption = parseFloat(json.emeters[1].power);
+					          this.totalPowerConsumption = parseFloat(json.emeters[1].total)/1000;
+					          this.voltage1 = parseFloat(json.emeters[1].voltage);
+				          	this.ampere1 = (this.powerConsumption/this.voltage1);
+						  	
+					        }
+					      }	
+					  	} 
+						} 
+						else {
+							
+					    this.powerConsumption = parseFloat(json.emeters[0].power)+parseFloat(json.emeters[1].power)+parseFloat(json.emeters[2].power);
+					    this.totalPowerConsumption = (parseFloat(json.emeters[0].total)+parseFloat(json.emeters[1].total)+parseFloat(json.emeters[2].total))/1000;
+					    this.voltage1 = ((parseFloat(json.emeters[0].voltage)+parseFloat(json.emeters[1].voltage)+parseFloat(json.emeters[2].voltage))/3);
+				    	this.ampere1 = ((parseFloat(json.emeters[0].current)*this.pf0)
+						    	+(parseFloat(json.emeters[1].current)*this.pf1)
+						    	+(parseFloat(json.emeters[2].current)*this.pf2));							
+						}
+							
+							
 					
 					if (this.debug_log) { this.log('Successful http response. [ voltage: ' + this.voltage1.toFixed(0) + 'V, current: ' + this.ampere1.toFixed(1) + 'A, consumption: ' + this.powerConsumption.toFixed(0) + 'W, total consumption: ' + this.totalPowerConsumption.toFixed(2) + 'kWh ]'); }
 				}
@@ -186,23 +222,8 @@ EnergyMeter.prototype.updateState = function () {
 				}
 			}
 			if (!error) {
-				if (this.use_pf) {
-					this.pf0 = parseFloat(json.emeters[0].pf);
-					this.pf1 = parseFloat(json.emeters[1].pf);
-					this.pf2 = parseFloat(json.emeters[2].pf);
-				}
-				else {
-					this.pf0 = 1;
-					this.pf1 = 1;
-					this.pf2 = 1;
-				}
 				
-				resolve(parseFloat(json.emeters[0].power)+parseFloat(json.emeters[1].power)+parseFloat(json.emeters[2].power),
-				(parseFloat(json.emeters[0].total)+parseFloat(json.emeters[1].total)+parseFloat(json.emeters[2].total))/1000,
-				((parseFloat(json.emeters[0].voltage)+parseFloat(json.emeters[1].voltage)+parseFloat(json.emeters[2].voltage))/3),
-				((parseFloat(json.emeters[0].current)*this.pf0)
-				 +(parseFloat(json.emeters[1].current)*this.pf1)
-				 +(parseFloat(json.emeters[2].current)*this.pf2)))
+				resolve(this.powerConsumption,this.totalPowerConsumption,this.voltage1,this.ampere1)
 			}
 			else {
 				reject(error);

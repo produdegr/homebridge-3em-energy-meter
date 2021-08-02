@@ -55,6 +55,22 @@
         "maximum": 60000,
         "description": "Update Interval should be higher than Request Timeout."
         },
+        "use_em": {
+        "title": "Use Shelly EM device.",
+        "type": "boolean",
+        "default": false,
+        "required": true,
+        "description": "Set this flag to true if you want to use this plugin with a Shelly EM device."
+        },
+        "use_em_mode": {
+        "title": "Shelly EM operating mode (0=combine,1=channel1,2=channel2)",
+        "type": "integer",
+        "default": 0,
+        "required": true,
+        "minimum": 0,
+        "maximum": 2,
+        "description": "Is used ONLY when 'use_em' is true."
+        },        
         "use_pf": {
         "title": "Use Power Factor (pf) when calculating Total Ampere",
         "type": "boolean",

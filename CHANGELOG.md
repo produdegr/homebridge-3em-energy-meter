@@ -1,5 +1,14 @@
 # Change Log
 
+## 1.1.0 (2021-08-02)
+
+### Changes
+
+* Added support for Shelly EM devices (beta)
+* Please set config flag use_em to true and 
+  use use_em_mode to get combined, channel1 or channel2 (setting 0,1,2)
+  to use this plugin with a Shelly EM.
+
 ## 1.0.0 (2021-06-11)
 
 ### Changes
