@@ -1,5 +1,12 @@
 # Change Log
 
+
+## 1.1.2 (2021-11-02)
+
+### Changes
+
+* Added correct absolute ( abs() ) to calculations in order to comply to Homekit ranges (no negative values allowed).
+
 ## 1.1.1 (2021-11-02)
 
 ### Changes
