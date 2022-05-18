@@ -40,21 +40,23 @@ and then edit your Homebridge's config.json to include the following in the acce
             "update_interval": 10000,
             "use_em": false,
             "use_em_mode": 0,
+            "negative_handling_mode": 0,
             "use_pf": false,
             "debug_log": false,
             "serial": "123456789012345"             
         },
 
-* "name"              The Homekit Accessory Name.
-* "ip"                The IP address of your Shelly 3EM.
-* "user" and "pass"   If your Shelly 3EM local web page is password protected specify "user" and "pass".
-* "timeout"           The http/get request timeout in msec. This timeout must the less than the "update_interval", default is 5000.
-* "update_interval"   The interval for pulling values in msec. Must be greater than "timeout" setting, default is 10000.
-* "use_em"            Use this plugin with a Shelly EM device.
-* "use_em_mode" 			Set the mode when use_em is true. Set to 0 to combine channel1 and channel2. Use 1,2 when single channels should be used,respectively.
-* "use_pf"            Enables the Power Factor (pf) usage when calculating Total Ampere.
-* "debug_log"         Enables the debug logging of the plugin, default is false.
-* "serial"            This sets the published serialNumber of the accessory. It is required to use an unique serial for fakegato-history to work correctly.
+* "name"              			The Homekit Accessory Name.
+* "ip"                			The IP address of your Shelly 3EM.
+* "user" and "pass"   			If your Shelly 3EM local web page is password protected specify "user" and "pass".
+* "timeout"           			The http/get request timeout in msec. This timeout must the less than the "update_interval", default is 5000.
+* "update_interval"   			The interval for pulling values in msec. Must be greater than "timeout" setting, default is 10000.
+* "use_em"            			Use this plugin with a Shelly EM device.
+* "use_em_mode" 						Set the mode when use_em is true. Set to 0 to combine channel1 and channel2. Use 1,2 when single channels should be used,respectively.
+* "use_pf"            			Enables the Power Factor (pf) usage when calculating Total Ampere.
+* "negative_handling_mode"	Defines what happens with negative values. Set to 0 to zero them or 1 to show them as absolute values.
+* "debug_log"         			Enables the debug logging of the plugin, default is false.
+* "serial"            			This sets the published serialNumber of the accessory. It is required to use an unique serial for fakegato-history to work correctly.
 
 Shelly EM functionality is beta, please use at own risk as I could not test it on a real EM device.
 The creator of this plugin is not affiliated in any way with [Shelly(Allterco)](https://shelly.cloud/) or [EVE](https://www.evehome.com/).

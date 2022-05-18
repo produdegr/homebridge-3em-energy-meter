@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.1.3 (2021-05-18)
+
+### Changes
+
+* Added a mode selection in order to specify what to do when negative values appear (Power returns etc.).
+
 
 ## 1.1.2 (2021-11-02)
 

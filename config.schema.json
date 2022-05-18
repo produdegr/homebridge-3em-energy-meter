@@ -70,7 +70,16 @@
         "minimum": 0,
         "maximum": 2,
         "description": "Is used ONLY when 'use_em' is true."
-        },        
+        }, 
+        "negative_handling_mode": {
+        "title": "Negative Values handling mode (0=zero Negative Values,1=absolute Negative Values)",
+        "type": "integer",
+        "default": 0,
+        "required": true,
+        "minimum": 0,
+        "maximum": 1,
+        "description": "Defines how negative values are handled (power return etc.)."
+        },       
         "use_pf": {
         "title": "Use Power Factor (pf) when calculating Total Ampere",
         "type": "boolean",
