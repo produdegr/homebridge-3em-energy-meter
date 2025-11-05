@@ -1,106 +1,143 @@
 {
-  "pluginAlias": "3EMEnergyMeter",
-  "pluginType": "accessory",
-  "singular": true,
-  "headerDisplay": "Shelly 3EM Energy Meter Plugin",
-  "footerDisplay": "This accessory will only be supported in the third-party Homekit app EVE.",
+  "pluginAlias": "ShellyEnergyMeter",
+  "pluginType": "platform",
+  "singular": false,
+  "headerDisplay": "Shelly 3EM/EM Energy Meter Platform - Fixed Phase Support",
+  "footerDisplay": "📱 Energy characteristics only visible in EVE app | 🔧 3EM uses 3 phases, EM uses 2 phases automatically",
   "schema": {
     "type": "object",
     "properties": {
       "name": {
-        "title": "Name",
+        "title": "Platform Name",
         "type": "string",
-        "default": "Energy Meter",
+        "default": "Shelly Energy Meters",
         "required": true
-        },
-        "ip": {
-        "title": "IP Address",
-        "type": "string",
-        "default": "127.0.0.1",
-        "required": true,
-        "format": "ipv4"
-        },   
-        "auth": {
-        "title": "Shelly 3EM Web Interface Authentication",
-        "type": "object",
-        "properties": {
-            "user": {
-              "title": "Username",
+      },
+      "devices": {
+        "title": "Energy Meter Devices",
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "title": "Device Name",
               "type": "string",
-              "default": "",
-              "required": false
+              "required": true,
+              "description": "Display name for this device"
             },
-            "pass": {
-              "title": "Password",
+            "ip": {
+              "title": "IP Address",
               "type": "string",
-              "default": "",
-              "required": false
+              "required": true,
+              "format": "ipv4",
+              "description": "IP address of the Shelly device"
+            },   
+            "auth": {
+              "title": "Authentication",
+              "type": "object",
+              "properties": {
+                "user": {
+                  "title": "Username",
+                  "type": "string"
+                },
+                "pass": {
+                  "title": "Password",
+                  "type": "string"
+                }
+              },
+              "description": "Optional authentication for protected devices"
+            },
+            "timeout": {
+              "title": "Timeout (ms)",
+              "type": "integer",
+              "default": 5000,
+              "minimum": 1000,
+              "maximum": 30000
+            },
+            "update_interval": {
+              "title": "Update Interval (ms)",
+              "type": "integer",
+              "default": 10000,
+              "minimum": 5000,
+              "maximum": 60000,
+              "description": "Must be greater than timeout"
+            },
+            "device_type": {
+              "title": "📡 Device Type",
+              "type": "string",
+              "default": "3EM",
+              "enum": ["3EM", "EM"],
+              "description": "Shelly 3EM (3 phases) or Shelly EM (2 phases) - Missing phases will be set to 0"
+            },
+            "use_pf": {
+              "title": "Use Power Factor (pf) when calculating Total Ampere",
+              "type": "boolean",
+              "default": false,
+              "required": true
+            },
+            "enable_consumption": {
+              "title": "Enable Instant Consumption Characteristic",
+              "type": "boolean",
+              "default": true,
+              "required": true,
+              "description": "Disable to hide the Consumption characteristic."
+            },
+            "enable_total_consumption": {
+              "title": "Enable Total Consumption Characteristic",
+              "type": "boolean",
+              "default": true,
+              "required": true,
+              "description": "Disable to hide the Total Energy characteristic."
+            },
+            "enable_voltage": {
+              "title": "Enable Voltage Characteristic",
+              "type": "boolean",
+              "default": true,
+              "required": true,
+              "description": "Disable to hide the Voltage characteristic."
+            },
+            "enable_ampere": {
+              "title": "Enable Current Characteristic",
+              "type": "boolean",
+              "default": true,
+              "required": true,
+              "description": "Disable to hide the Current characteristic."
+            },
+            "use_em_mode": {
+              "title": "📊 EM Channel Mode",
+              "type": "integer",
+              "default": 0,
+              "minimum": 0,
+              "maximum": 2,
+              "description": "0=combine all channels, 1=channel 1 only, 2=channel 2 only (EM only)",
+              "condition": {
+                "functionBody": "return model.device_type === 'EM';"
+              }
+            }, 
+            "negative_handling_mode": {
+              "title": "Negative Values",
+              "type": "integer",
+              "default": 0,
+              "minimum": 0,
+              "maximum": 1,
+              "description": "0=set to zero, 1=show absolute value"
+            },
+            "debug_log": {
+              "title": "Debug Logging",
+              "type": "boolean",
+              "default": false,
+              "description": "Enable detailed logging for this device"
+            },
+            "serial": {
+              "title": "Serial Number",
+              "type": "string",
+              "description": "Custom serial (auto-generated if empty)"
             }
-          }
-        },
-        "timeout": {
-        "title": "Request Timeout",
-        "type": "integer",
-        "default": 5000,
-        "required": true,
-        "minimum": 1000,
-        "maximum": 30000
-        },
-        "update_interval": {
-        "title": "Update Interval",
-        "type": "integer",
-        "default": 10000,
-        "required": true,
-        "minimum": 1000,
-        "maximum": 60000,
-        "description": "Update Interval should be higher than Request Timeout."
-        },
-        "use_em": {
-        "title": "Use Shelly EM device.",
-        "type": "boolean",
-        "default": false,
-        "required": true,
-        "description": "Set this flag to true if you want to use this plugin with a Shelly EM device."
-        },
-        "use_em_mode": {
-        "title": "Shelly EM operating mode (0=combine,1=channel1,2=channel2)",
-        "type": "integer",
-        "default": 0,
-        "required": true,
-        "minimum": 0,
-        "maximum": 2,
-        "description": "Is used ONLY when 'use_em' is true."
-        }, 
-        "negative_handling_mode": {
-        "title": "Negative Values handling mode (0=zero Negative Values,1=absolute Negative Values)",
-        "type": "integer",
-        "default": 0,
-        "required": true,
-        "minimum": 0,
-        "maximum": 1,
-        "description": "Defines how negative values are handled (power return etc.)."
-        },       
-        "use_pf": {
-        "title": "Use Power Factor (pf) when calculating Total Ampere",
-        "type": "boolean",
-        "default": false,
-        "required": true
-        },      
-        "debug_log": {
-        "title": "Enable Debug Logging",
-        "type": "boolean",
-        "default": false,
-        "required": true
-        },
-        "serial": {
-        "title": "Shelly 3EM Device Serial",
-        "type": "string",
-        "default": "123456789012345",
-        "required": true,
-        "minLength": 5,
-        "maxLength": 16,
-        "description": "Please make sure this serial is unique across homebridge, or simply use real serial."
+          },
+          "required": ["name", "ip"]
         }
       }
-    }
+    },
+    "required": ["name", "devices"]
+  }
 }

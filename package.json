@@ -1,33 +1,41 @@
 {
-  "name": "homebridge-3em-energy-meter",
-  "version": "1.1.3",
-  "description": "Homebridge plugin for implementing Shelly 3EM (or EM) Energy Meter functionality in Homekit (EVE third party app only).",
+  "displayName": "Shelly Energy Meter Platform",
+  "name": "homebridge-shelly-energy-meter",
+  "version": "2.0.0",
+  "description": "Homebridge platform plugin for multiple Shelly 3EM/EM energy meters in HomeKit via EVE app",
   "license": "MIT",
-  "keywords": [
-    "homebridge-plugin",
-    "energy meter",
-    "Shelly 3EM",
-    "Shelly EM",
-    "http",
-    "no mqtt"
-  ],
-  "engines": {
-    "node": ">=10.0.0",
-    "homebridge": ">=1.3.1"
-  },
-  "author": {
-    "name": "@produdegr"
-  },
+  "homepage": "https://github.com/thechris1992/homebridge-shelly-energy-meter#readme",
   "repository": {
     "type": "git",
-    "url": "git://github.com/produdegr/homebridge-3em-energy-meter.git"
+    "url": "git+https://github.com/thechris1992/homebridge-shelly-energy-meter.git"
   },
+  "bugs": {
+    "url": "https://github.com/thechris1992/homebridge-shelly-energy-meter/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "homebridge": ">=1.6.0"
+  },
+  "main": "index.js",
+  "keywords": [
+    "homebridge-plugin",
+    "homebridge",
+    "shelly",
+    "energy-meter",
+    "platform",
+    "eve"
+  ],
+  "author": "thechris1992",
   "dependencies": {
-    "request": "^2.5.0",
-    "fakegato-history": "^0.6.1" 
+    "fakegato-history": "^0.6.3",
+    "node-fetch": "^2.7.0"
   },
-  "funding": {
-  "type" : "paypal",
-  "url" : "https://paypal.me/produdegr"
+  "peerDependencies": {
+    "homebridge": ">=1.6.0"
+  },
+  "homebridge": {
+    "displayName": "Shelly Energy Meter Platform",
+    "platformName": "ShellyEnergyMeter",
+    "configSchema": "config.schema.json"
   }
 }

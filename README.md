@@ -1,64 +1,106 @@
+# Homebridge 3EM Energy Meter Platform
+
 [![verified-by-homebridge](https://badgen.net/badge/homebridge/verified/purple)](https://github.com/homebridge/homebridge/wiki/Verified-Plugins)
 [![npm version](https://badge.fury.io/js/homebridge-3em-energy-meter.svg)](https://www.npmjs.com/package/homebridge-3em-energy-meter)
-[![Downloads](https://img.shields.io/npm/dt/homebridge-3em-energy-meter.svg)](https://www.npmjs.com/package/homebridge-3em-energy-meter)
 
-# Homebridge 3em Energy Meter
+A Homebridge platform plugin for monitoring multiple Shelly 3EM and EM energy meters in HomeKit via the EVE app.
 
-[Homebridge 3em Energy Meter](https://www.npmjs.com/package/homebridge-3em-energy-meter) is a plugin for [Homebridge](https://github.com/homebridge/homebridge) that implements Shelly 3EM energy metering functionality in Homekit.
+## Features
 
-This plugin uses http requests to a Shelly 3EM (or EM*) device, making it possible to retain the native Shelly cloud statistics (which use MQTT) and at the same time allow you to monitor your energy consumption via Homekit. 
+- **Fixed Phase Support**: 3EM devices always use 3 phases, EM devices always use 2 phases
+- **Multiple Device Types**: Supports both Shelly 3EM and Shelly EM devices
+- **Multiple Device Support**: Monitor multiple devices simultaneously
+- **Robust Handling**: Missing phases are automatically set to 0 (no errors)
+- **EVE App Integration**: View energy data in the EVE app (required for energy characteristics)
+- **History Support**: Historical data with fakegato-history
+- **Authentication**: Support for password-protected devices
 
-Please note that due to the fact that Apple does not support energy characteristics in Homekit, this plugin's accessory will only show values in the third-party homekit application "EVE".
+## Installation
 
-[![Status](screenshots/homebridge-3em-energy-meter-eve-app.png)]
+### Standard Installation
+```bash
+npm install thechris1992/homebridge-shelly-energy-meter
+```
 
-It will show in the EVE application the following values: Voltage (the average voltage of all 3 phases), Current (the accumulated Ampere of all 3 phases), Consumption (the accumulated Watts of all 3 phases) and the Total Consumption (the accumulated kWh of all 3 phases as calculated by Shelly API. Note in order to reset this value you must reset it in the Shelly app). A Total Cost and Projected Cost will show if you have specified the Energy Cost in the settings section of your EVE application. Total Consumption and Total Cost will feature the fakegato-history graph.
+### Install a branch #... with Debug Output
+```bash
+npm install thechris1992/homebridge-shelly-energy-meter#feature/plattform --install-strategy shallow --loglevel verbose
+```
 
-This application uses the cool fakegato plugin ([simont77/fakegato-history](https://github.com/simont77/fakegato-history)).
+**Note**: After installation, restart Homebridge to load the plugin.
 
-Please also note that the sole purpose of this plugin is the energy metering feature of the Shelly 3em in order to monitor your 3 phase installation. The Shelly 3em features also an actuator (switch) which is not implemented in this plugin. If you need to use the switch in Homekit please use other plugins, like for example the very good homebridge-shelly ([alexryd/homebridge-shelly](https://github.com/alexryd/homebridge-shelly)) plugin.
+## Configuration
 
-# Installation Instructions
+Add to your Homebridge config.json platforms section:
 
-You can easily install this plugin by using the superb [Homebridge Config UI X](https://www.npmjs.com/package/homebridge-config-ui-x). Search for "homebridge-3em-energy-meter" in the "Plugins" tab and install the plugin. After that fill out the configuration by using the "SETTINGS" link below the installed plugin.
-
-Alternatively, can you install the plugin by 
-
-             npm install -g homebridge-3em-energy-meter
-
-and then edit your Homebridge's config.json to include the following in the accessories section:
-
+```json
+{
+    "platform": "ShellyEnergyMeter",
+    "name": "Energy Meters",
+    "devices": [
         {
-            "accessory": "3EMEnergyMeter",
-            "name": "Energy Meter",
-            "ip": "192.168.0.1",
-            "auth": {
-                "user": "",
-                "pass": ""
-            },
-            "timeout": 5000,
-            "update_interval": 10000,
-            "use_em": false,
-            "use_em_mode": 0,
-            "negative_handling_mode": 0,
-            "use_pf": false,
-            "debug_log": false,
-            "serial": "123456789012345"             
+            "name": "Main House Meter",
+            "ip": "192.168.1.100"
         },
+        {
+            "name": "Garage Meter", 
+            "ip": "192.168.1.101",
+            "auth": {
+                "user": "admin",
+                "pass": "password"
+            }
+        },
+        {
+            "name": "Solar Meter",
+            "ip": "192.168.1.102",
+            "device_type": "EM",
+            "use_em_mode": 0,
+            "debug_log": true
+        }
+    ]
+}
+```
 
-* "name"              			The Homekit Accessory Name.
-* "ip"                			The IP address of your Shelly 3EM.
-* "user" and "pass"   			If your Shelly 3EM local web page is password protected specify "user" and "pass".
-* "timeout"           			The http/get request timeout in msec. This timeout must the less than the "update_interval", default is 5000.
-* "update_interval"   			The interval for pulling values in msec. Must be greater than "timeout" setting, default is 10000.
-* "use_em"            			Use this plugin with a Shelly EM device.
-* "use_em_mode" 						Set the mode when use_em is true. Set to 0 to combine channel1 and channel2. Use 1,2 when single channels should be used,respectively.
-* "use_pf"            			Enables the Power Factor (pf) usage when calculating Total Ampere.
-* "negative_handling_mode"	Defines what happens with negative values. Set to 0 to zero them or 1 to show them as absolute values.
-* "debug_log"         			Enables the debug logging of the plugin, default is false.
-* "serial"            			This sets the published serialNumber of the accessory. It is required to use an unique serial for fakegato-history to work correctly.
+### Configuration Options
 
-Shelly EM functionality is beta, please use at own risk as I could not test it on a real EM device.
-The creator of this plugin is not affiliated in any way with [Shelly(Allterco)](https://shelly.cloud/) or [EVE](https://www.evehome.com/).
+#### Platform Level
+- `platform`: Must be `"ShellyEnergyMeter"`
+- `name`: Platform name (shown in logs)
+- `devices`: Array of device configurations
 
-[![Support via PayPal](https://cdn.rawgit.com/twolfson/paypal-github-button/1.0.0/dist/button.svg)](https://www.paypal.me/produdegr/)
+#### Device Level
+- `name` (required): Device name in HomeKit
+- `ip` (required): Device IP address
+- `device_type` (optional): Device type - "3EM" (3 phases) or "EM" (2 phases) (default: "3EM")
+- `auth` (optional): Authentication credentials
+  - `user`: Username
+  - `pass`: Password
+- `timeout` (optional): HTTP timeout in ms (default: 5000)
+- `update_interval` (optional): Update interval in ms (default: 10000)
+- `use_em_mode` (optional): EM channel mode (0=all, 1=ch1, 2=ch2) - only for EM devices
+- `use_pf` (optional): Use power factor for current calculation (default: false)
+- `enable_consumption` (optional): Show instant consumption characteristic (default: true)
+- `enable_total_consumption` (optional): Show total energy characteristic (default: true)
+- `enable_voltage` (optional): Show voltage characteristic (default: true)
+- `enable_ampere` (optional): Show current characteristic (default: true)
+- `negative_handling_mode` (optional): Handle negative values (0=zero, 1=absolute)
+- `debug_log` (optional): Enable debug logging (default: false)
+- `serial` (optional): Custom serial number (auto-generated if empty)
+
+## Notes
+
+- **EVE App Required**: Energy characteristics only visible in EVE app, not native HomeKit
+- **Fixed Phase Support**: 3EM always uses 3 phases, EM always uses 2 phases
+- **Missing Phases Handled**: If phases are not physically connected, values are set to 0
+- **No Phase Configuration**: Phase count is automatically determined by device type
+- **Switch Function**: This plugin only handles energy monitoring, not switching
+- **Breaking Change**: v2.0.0 converted from accessory to platform plugin
+
+## Troubleshooting
+
+1. **Missing phases**: ✅ **Fixed!** Missing phases are automatically set to 0, no configuration needed
+2. **Device not found**: Check IP address and network connectivity
+3. **Authentication errors**: Verify username/password
+4. **No data**: Ensure update_interval > timeout
+5. **Multiple same names**: Use unique device names
+6. **Wrong phase count**: Use correct device_type (3EM=3 phases, EM=2 phases)
